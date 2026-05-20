@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Shopping Assistant</title>
+    <style>
+        body { font-family: Arial; background: #f0f8ff; text-align: center; padding: 30px; }
+        .container { background: white; padding: 20px; border-radius: 15px; display: inline-block; }
+        h1 { color: #007ACC; }
+        input { margin: 20px; }
+        .product { margin: 10px; }
+        .best { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🛍 AI Shopping Assistant</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" required>
+        <br>
+        <button type="submit">Analyze</button>
+    </form>
+
+    {% if result %}
+
+        <h2>Caption</h2>
+        <p>{{ result.caption }}</p>
+
+        <h3>Keywords</h3>
+        <p>{{ result.keywords }}</p>
+
+        <h3>Products</h3>
+        {% for p in result.products %}
+            <div class="product">
+                <a href="{{ p.link }}" target="_blank">{{ p.title }}</a>
+                - Risk: {{ p.scam_risk_% }}%
+            </div>
+        {% endfor %}
+
+        {% if result.best_buy %}
+            <h3 class="best">Best Buy</h3>
+            <a href="{{ result.best_buy.link }}">{{ result.best_buy.title }}</a>
+        {% endif %}
+
+    {% endif %}
+</div>
+
+</body>
+</html>
